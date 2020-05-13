@@ -12,6 +12,12 @@ export default class FormComponent extends Component {
       email: "",
       conditions: false,
     };
+    this.rules = {
+      firstname: { required: true, minLength: 3, onlyLetter: true },
+      lastname: { required: true, minLength: 3, onlyLetter: true },
+      email: { required: true, email: true },
+      birthdate: { required: true, date: true },
+    };
   }
 
   updateFormValues = (evet) => {
@@ -22,6 +28,7 @@ export default class FormComponent extends Component {
     return (
       <FormValidator
         data={this.state}
+        rules={this.rules}
         submit={this.props.submit}
       >
         <form className="ui form">

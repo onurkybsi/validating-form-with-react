@@ -9,25 +9,30 @@ export default class FormValidator extends Component {
       errors: {},
       formValid: false,
     };
-    this.rules = {
-      firstname: { required: true, minLength: 3, onlyLetter: true },
-      lastname: { required: true, minLength: 3, onlyLetter: true },
-      email: { required: true, email: true },
-      birthdate: { required: true, date: true },
-    };
   }
 
   static getDerivedStateFromProps(props, state) {
+    let validation = ValidateData(props.data, props.rules);
+
     return {
-      error: ValidateData(props.data, props.rules)
-    }
-  };
+      error: validation,
+      formValid: validation.valid
+    };
+  }
 
   render() {
     return (
-      <button className="ui button" type="submit" disabled={this.state.formValid} style={{ float: "right" }}>
-        Submit
-      </button>
+      <React.Fragment>
+        <div>{this.props.children}</div>
+        <button
+          className="ui button"
+          type="submit"
+          disabled={!this.state.formValid}
+          style={{ float: "right" }}
+        >
+          Submit
+        </button>
+      </React.Fragment>
     );
   }
 }
