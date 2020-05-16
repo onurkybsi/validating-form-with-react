@@ -20,9 +20,13 @@ export default class FormComponent extends Component {
     };
   }
 
-  updateFormValues = (evet) => {
-    this.setState({ [evet.target.name]: evet.target.value });
+  updateFormValues = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
   };
+
+  updateConditions = (event) => {
+    this.setState({ [event.target.name]: event.target.checked });
+  }
 
   render() {
     return (
@@ -72,17 +76,12 @@ export default class FormComponent extends Component {
               placeholder="E-mail"
             />
           </div>
-          <div
-            className="ui checkbox"
-            value={this.state.conditions}
-            onChange={this.updateFormValues}
-            style={{ float: "left" }}
-          >
+          <div className="ui checkbox" style={{ float: "left" }}>
             <input
               type="checkbox"
               name="conditions"
-              tabIndex="0"
-              className="hidden"
+              value={this.state.conditions}
+              onChange={this.updateConditions}
             />
             <label>I agree to the Terms and Conditions</label>
           </div>
