@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ValidateData from "./Validation";
+import { ErrorContext } from "./ErrorContext";
 
 export default class FormValidator extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ export default class FormValidator extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <ErrorContext.Provider value={this.state}>
         <div>{this.props.children}</div>
         <button
           className="ui button"
@@ -32,7 +33,7 @@ export default class FormValidator extends Component {
         >
           Submit
         </button>
-      </React.Fragment>
+      </ErrorContext.Provider>
     );
   }
 }

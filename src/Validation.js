@@ -46,6 +46,5 @@ export default function ValidateData(data, rules) {
     errors.valid = false;
   }
 
-  console.log(errors);
   return errors;
 }

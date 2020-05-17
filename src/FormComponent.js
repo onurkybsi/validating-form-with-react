@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import FormValidator from "./FormValidator";
+import { ErrorContext } from "./ErrorContext";
+import ValidationMessage from "./ValidationMessage";
 
 export default class FormComponent extends Component {
   constructor(props) {
@@ -22,11 +24,14 @@ export default class FormComponent extends Component {
 
   updateFormValues = (event) => {
     this.setState({ [event.target.name]: event.target.value });
+    console.log(this.context.formValid);
   };
 
   updateConditions = (event) => {
     this.setState({ [event.target.name]: event.target.checked });
-  }
+  };
+
+  static contextType = ErrorContext;
 
   render() {
     return (
