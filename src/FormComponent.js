@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import FormValidator from "./FormValidator";
-import { ErrorContext } from "./ErrorContext";
 import ValidationMessage from "./ValidationMessage";
 
 export default class FormComponent extends Component {
@@ -31,16 +30,11 @@ export default class FormComponent extends Component {
     this.setState({ [event.target.name]: event.target.checked });
   };
 
-  static contextType = ErrorContext;
-
   render() {
     return (
-      <FormValidator
-        data={this.state}
-        rules={this.rules}
-        submit={this.props.submit}
-      >
+      <React.Fragment>
         <form className="ui form">
+          <ValidationMessage />
           <div className="field">
             <label style={{ float: "left" }}>First Name</label>
             <input
@@ -91,7 +85,12 @@ export default class FormComponent extends Component {
             <label>I agree to the Terms and Conditions</label>
           </div>
         </form>
-      </FormValidator>
+        <FormValidator
+          data={this.state}
+          rules={this.rules}
+          submit={this.props.submit}
+        />
+      </React.Fragment>
     );
   }
 }

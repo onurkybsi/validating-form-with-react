@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import ValidateData from "./Validation";
-import { ErrorContext } from "./ErrorContext";
 
 export default class FormValidator extends Component {
   constructor(props) {
@@ -17,23 +16,20 @@ export default class FormValidator extends Component {
 
     return {
       error: validation,
-      formValid: validation.valid
+      formValid: validation.valid,
     };
   }
 
   render() {
     return (
-      <ErrorContext.Provider value={this.state}>
-        <div>{this.props.children}</div>
-        <button
-          className="ui button"
-          type="submit"
-          disabled={!this.state.formValid}
-          style={{ float: "right" }}
-        >
-          Submit
-        </button>
-      </ErrorContext.Provider>
+      <button
+        className="ui button"
+        type="submit"
+        disabled={!this.state.formValid}
+        style={{ float: "right" }}
+      >
+        Submit
+      </button>
     );
   }
 }

@@ -9,22 +9,23 @@ export default class App extends Component {
 
     this.state = {
       formData: {},
+      formValid: false,
     };
   }
   submitData = (newData) => {
-    this.setState({ formData: newData });
+    this.setState({ formData: newData, formValid: true });
   };
   render() {
     return (
-      <div
-        className="ui two column centered grid"
-        style={{ marginTop: "30px" }}
-      >
-        <div className="ui raised very padded text container segment">
+      <div className="ui two row centered grid">
+        <div
+          style={{ marginTop: "50px" }}
+          className="ui raised very padded text container segment"
+        >
           <FormComponent submit={this.submitData} />
         </div>
-        <div className="ui raised very padded text container segment">
-          {/* <DisplayValidation data={this.state.formData} /> */}
+        <div className="row">
+          <DisplayValidation formValid={this.state.formValid} />
         </div>
       </div>
     );
