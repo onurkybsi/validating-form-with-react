@@ -1,17 +1,19 @@
 import React, { Component } from "react";
 import FormValidator from "./FormValidator";
-import ValidationMessage from "./ValidationMessage";
 
 export default class FormComponent extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      firstname: "",
-      lastname: "",
-      birthdate: "",
-      email: "",
-      conditions: false,
+      data: {
+        firstname: "",
+        lastname: "",
+        birthdate: "",
+        email: "",
+        conditions: false,
+      },
+      validation: {},
     };
     this.rules = {
       firstname: { required: true, minLength: 3, onlyLetter: true },
@@ -22,27 +24,38 @@ export default class FormComponent extends Component {
   }
 
   updateFormValues = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-    console.log(this.context.formValid);
+    this.setState((state) => ({
+      data: { [event.target.name]: event.target.value },
+    }));
   };
 
   updateConditions = (event) => {
-    this.setState({ [event.target.name]: event.target.checked });
+    this.setState((state) => ({
+      data: { [event.target.name]: event.target.checked },
+    }));
+  };
+
+  changeCallback = (validationResult) => {
+    this.setState((state) => ({
+      validation: validationResult,
+    }));
   };
 
   render() {
     return (
       <React.Fragment>
         <form className="ui form">
-          <ValidationMessage />
           <div className="field">
             <label style={{ float: "left" }}>First Name</label>
             <input
               type="text"
               name="firstname"
-              value={this.state.firstname}
+              value={this.state.data.firstname}
               onChange={this.updateFormValues}
               placeholder="First Name"
+              style={{
+                borderColor: "#912D2B",
+              }}
             />
           </div>
           <div className="field">
@@ -50,7 +63,7 @@ export default class FormComponent extends Component {
             <input
               type="text"
               name="lastname"
-              value={this.state.lastname}
+              value={this.state.data.lastname}
               onChange={this.updateFormValues}
               placeholder="Last Name"
             />
@@ -60,7 +73,7 @@ export default class FormComponent extends Component {
             <input
               type="text"
               name="birthdate"
-              value={this.state.birthdate}
+              value={this.state.data.birthdate}
               onChange={this.updateFormValues}
               placeholder="Birth Date"
             />
@@ -70,7 +83,7 @@ export default class FormComponent extends Component {
             <input
               type="text"
               name="email"
-              value={this.state.email}
+              value={this.state.data.email}
               onChange={this.updateFormValues}
               placeholder="E-mail"
             />
@@ -79,16 +92,17 @@ export default class FormComponent extends Component {
             <input
               type="checkbox"
               name="conditions"
-              value={this.state.conditions}
+              value={this.state.data.conditions}
               onChange={this.updateConditions}
             />
             <label>I agree to the Terms and Conditions</label>
           </div>
         </form>
         <FormValidator
-          data={this.state}
+          data={this.state.data}
           rules={this.rules}
           submit={this.props.submit}
+          changeCallback={this.changeCallback}
         />
       </React.Fragment>
     );

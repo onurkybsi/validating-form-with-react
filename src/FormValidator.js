@@ -11,11 +11,12 @@ export default class FormValidator extends Component {
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    let validation = ValidateData(props.data, props.rules);
+  static getDerivedStateFromProps(nextProps, prevState) {
+    let validation = ValidateData(nextProps.data, nextProps.rules);
 
+    nextProps.changeCallback(validation);
     return {
-      error: validation,
+      errors: validation,
       formValid: validation.valid,
     };
   }
@@ -33,3 +34,4 @@ export default class FormValidator extends Component {
     );
   }
 }
+
