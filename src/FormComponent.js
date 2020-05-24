@@ -24,6 +24,7 @@ export default class FormComponent extends Component {
   }
 
   updateFormValues = (event) => {
+    console.log(event.target.name);
     this.setState((state) => ({
       data: { [event.target.name]: event.target.value },
     }));
@@ -44,66 +45,67 @@ export default class FormComponent extends Component {
   render() {
     return (
       <React.Fragment>
-        <form className="ui form">
-          <div className="field">
-            <label style={{ float: "left" }}>First Name</label>
-            <input
-              type="text"
-              name="firstname"
-              value={this.state.data.firstname}
-              onChange={this.updateFormValues}
-              placeholder="First Name"
-              style={{
-                borderColor: "#912D2B",
-              }}
-            />
-          </div>
-          <div className="field">
-            <label style={{ float: "left" }}>Last Name</label>
-            <input
-              type="text"
-              name="lastname"
-              value={this.state.data.lastname}
-              onChange={this.updateFormValues}
-              placeholder="Last Name"
-            />
-          </div>
-          <div className="field">
-            <label style={{ float: "left" }}>Birth Date</label>
-            <input
-              type="text"
-              name="birthdate"
-              value={this.state.data.birthdate}
-              onChange={this.updateFormValues}
-              placeholder="Birth Date"
-            />
-          </div>
-          <div className="field">
-            <label style={{ float: "left" }}>E-mail</label>
-            <input
-              type="text"
-              name="email"
-              value={this.state.data.email}
-              onChange={this.updateFormValues}
-              placeholder="E-mail"
-            />
-          </div>
-          <div className="ui checkbox" style={{ float: "left" }}>
-            <input
-              type="checkbox"
-              name="conditions"
-              value={this.state.data.conditions}
-              onChange={this.updateConditions}
-            />
-            <label>I agree to the Terms and Conditions</label>
-          </div>
-        </form>
         <FormValidator
           data={this.state.data}
           rules={this.rules}
           submit={this.props.submit}
           changeCallback={this.changeCallback}
-        />
+        >
+          <form className="ui form">
+            <div className="field">
+              <label style={{ float: "left" }}>First Name</label>
+              <input
+                type="text"
+                name="firstname"
+                value={this.state.data.firstname}
+                onChange={this.updateFormValues}
+                placeholder="First Name"
+                style={{
+                  borderColor: this.state.data.firstname.length > 0  && "#912D2B",
+                }}
+              />
+            </div>
+            <div className="field">
+              <label style={{ float: "left" }}>Last Name</label>
+              <input
+                type="text"
+                name="lastname"
+                value={this.state.data.lastname}
+                onChange={this.updateFormValues}
+                placeholder="Last Name"
+              />
+            </div>
+            <div className="field">
+              <label style={{ float: "left" }}>Birth Date</label>
+              <input
+                type="text"
+                name="birthdate"
+                value={this.state.data.birthdate}
+                onChange={this.updateFormValues}
+                placeholder="Birth Date"
+              />
+            </div>
+            <div className="field">
+              <label style={{ float: "left" }}>E-mail</label>
+              <input
+                type="text"
+                name="email"
+                value={this.state.data.email}
+                onChange={this.updateFormValues}
+                placeholder="E-mail"
+              />
+            </div>
+            <div className="ui checkbox" style={{ float: "left" }}>
+              <input
+                type="checkbox"
+                name="conditions"
+                value={this.state.data.conditions}
+                onChange={this.updateConditions}
+              />
+              <label>I agree to the Terms and Conditions</label>
+            </div>
+          </form>
+        </FormValidator>
       </React.Fragment>
     );
   }
