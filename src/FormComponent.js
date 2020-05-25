@@ -24,13 +24,14 @@ export default class FormComponent extends Component {
   }
 
   updateFormValues = (event) => {
-    console.log(event.target.name);
+    event.persist();
     this.setState((state) => ({
-      data: { [event.target.name]: event.target.value },
+      data: { [event.target?.name]: event.target?.value },
     }));
   };
 
   updateConditions = (event) => {
+    event.persist();
     this.setState((state) => ({
       data: { [event.target.name]: event.target.checked },
     }));
@@ -46,7 +47,7 @@ export default class FormComponent extends Component {
     return (
       <React.Fragment>
         <FormValidator
-          data={this.state.data}
+          formData={this.state.data}
           rules={this.rules}
           submit={this.props.submit}
           changeCallback={this.changeCallback}
@@ -61,7 +62,8 @@ export default class FormComponent extends Component {
                 onChange={this.updateFormValues}
                 placeholder="First Name"
                 style={{
-                  borderColor: this.state.data.firstname.length > 0  && "#912D2B",
+                  borderColor:
+                    this.state.validation.firstname?.length > 0 && "#912D2B",
                 }}
               />
             </div>

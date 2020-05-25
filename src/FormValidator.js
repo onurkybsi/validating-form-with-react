@@ -5,32 +5,14 @@ export default class FormValidator extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      formData: {
-        firstname: "",
-        lastname: "",
-        birthdate: "",
-        email: "",
-        conditions: false,
-      },
-    };
+    this.state = {};
   }
 
-  handleChange = (event) => {
-    console.log(event.target.name);
-    if (event.target.name === "conditions") {
-      this.setState((state) => ({
-        data: { [event.target.name]: event.target.checked },
-      }));
-    } else {
-      this.setState((state) => ({
-        data: { [event.target.name]: event.target.value },
-      }));
-    }
-
-    let validation = ValidateData(this.state.formData, this.props.rules);
-    this.props.changeCallback(validation);
-  };
+  componentWillUpdate(nextProps, nextState) {
+    let validation = ValidateData(nextProps.formData, nextProps.rules);
+    
+    nextProps.changeCallback(validation);
+  }
 
   render() {
     return (
