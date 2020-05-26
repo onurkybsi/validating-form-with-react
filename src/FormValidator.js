@@ -5,23 +5,34 @@ export default class FormValidator extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      validation: {},
+      erroneous: [],
+    };
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    let validation = ValidateData(nextProps.formData, nextProps.rules);
-    
-    nextProps.changeCallback(validation);
+  static getDerivedStateFromProps(props, state) {
+    let validationResult = ValidateData(props.formData, props.rules);
+
+    return {
+      validation: validationResult,
+      erroneous: Object.keys(validationResult),
+    };
   }
+
+  handleClick = (e) => {
+    e.persist();
+    this.props.submit(e, true);
+  };
 
   render() {
     return (
       <React.Fragment>
-        <div onChange={this.handleChange}>{this.props.children}</div>
         <button
           className="ui button"
           type="submit"
-          disabled={!this.state.formValid}
+          disabled={!this.state.validation.valid}
+          onClick={this.handleClick}
           style={{ float: "right" }}
         >
           Submit

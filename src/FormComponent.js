@@ -6,14 +6,11 @@ export default class FormComponent extends Component {
     super(props);
 
     this.state = {
-      data: {
-        firstname: "",
-        lastname: "",
-        birthdate: "",
-        email: "",
-        conditions: false,
-      },
-      validation: {},
+      firstname: "",
+      lastname: "",
+      birthdate: "",
+      email: "",
+      conditions: false,
     };
     this.rules = {
       firstname: { required: true, minLength: 3, onlyLetter: true },
@@ -23,91 +20,82 @@ export default class FormComponent extends Component {
     };
   }
 
-  updateFormValues = (event) => {
+  updateInputValues = (event) => {
     event.persist();
     this.setState((state) => ({
-      data: { [event.target?.name]: event.target?.value },
+      [event.target?.name]: event.target?.value,
     }));
   };
 
   updateConditions = (event) => {
     event.persist();
     this.setState((state) => ({
-      data: { [event.target.name]: event.target.checked },
-    }));
-  };
-
-  changeCallback = (validationResult) => {
-    this.setState((state) => ({
-      validation: validationResult,
+      [event.target?.name]: event.target?.checked,
     }));
   };
 
   render() {
     return (
       <React.Fragment>
+        <form className="ui form">
+          <div className="field">
+            <label style={{ float: "left" }}>First Name</label>
+            <input
+              type="text"
+              name="firstname"
+              value={this.state.firstname}
+              onChange={this.updateInputValues}
+              placeholder="First Name"
+              // style={{
+              //   borderColor: "#912D2B",
+              // }}
+            />
+          </div>
+          <div className="field">
+            <label style={{ float: "left" }}>Last Name</label>
+            <input
+              type="text"
+              name="lastname"
+              value={this.state.lastname}
+              onChange={this.updateInputValues}
+              placeholder="Last Name"
+            />
+          </div>
+          <div className="field">
+            <label style={{ float: "left" }}>Birth Date</label>
+            <input
+              type="text"
+              name="birthdate"
+              value={this.state.birthdate}
+              onChange={this.updateInputValues}
+              placeholder="Birth Date"
+            />
+          </div>
+          <div className="field">
+            <label style={{ float: "left" }}>E-mail</label>
+            <input
+              type="text"
+              name="email"
+              value={this.state.email}
+              onChange={this.updateInputValues}
+              placeholder="E-mail"
+            />
+          </div>
+          <div className="ui checkbox" style={{ float: "left" }}>
+            <input
+              type="checkbox"
+              name="conditions"
+              value={this.state.conditions}
+              onChange={this.updateConditions}
+            />
+            <label>I agree to the Terms and Conditions</label>
+          </div>
+        </form>
         <FormValidator
-          formData={this.state.data}
+          formData={this.state}
           rules={this.rules}
           submit={this.props.submit}
-          changeCallback={this.changeCallback}
-        >
-          <form className="ui form">
-            <div className="field">
-              <label style={{ float: "left" }}>First Name</label>
-              <input
-                type="text"
-                name="firstname"
-                value={this.state.data.firstname}
-                onChange={this.updateFormValues}
-                placeholder="First Name"
-                style={{
-                  borderColor:
-                    this.state.validation.firstname?.length > 0 && "#912D2B",
-                }}
-              />
-            </div>
-            <div className="field">
-              <label style={{ float: "left" }}>Last Name</label>
-              <input
-                type="text"
-                name="lastname"
-                value={this.state.data.lastname}
-                onChange={this.updateFormValues}
-                placeholder="Last Name"
-              />
-            </div>
-            <div className="field">
-              <label style={{ float: "left" }}>Birth Date</label>
-              <input
-                type="text"
-                name="birthdate"
-                value={this.state.data.birthdate}
-                onChange={this.updateFormValues}
-                placeholder="Birth Date"
-              />
-            </div>
-            <div className="field">
-              <label style={{ float: "left" }}>E-mail</label>
-              <input
-                type="text"
-                name="email"
-                value={this.state.data.email}
-                onChange={this.updateFormValues}
-                placeholder="E-mail"
-              />
-            </div>
-            <div className="ui checkbox" style={{ float: "left" }}>
-              <input
-                type="checkbox"
-                name="conditions"
-                value={this.state.data.conditions}
-                onChange={this.updateConditions}
-              />
-              <label>I agree to the Terms and Conditions</label>
-            </div>
-          </form>
-        </FormValidator>
+        />
       </React.Fragment>
     );
   }
