@@ -11,11 +11,10 @@ export default class App extends Component {
       formValid: false,
     };
   }
-  submitForm = (e, isValid) => {
-    this.setState({ formValid: true && isValid });
+  submitForm = (isValid) => {
+    this.setState({ formValid: isValid });
   };
   render() {
-    console.log("hello from the app");
     return (
       <div className="ui two row centered grid">
         <div

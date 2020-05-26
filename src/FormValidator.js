@@ -14,30 +14,31 @@ export default class FormValidator extends Component {
   static getDerivedStateFromProps(props, state) {
     let validationResult = ValidateData(props.formData, props.rules);
 
+    if (state.validation.valid === true && validationResult.valid === false) {
+      props.submit(null, false);
+    }
+
     return {
       validation: validationResult,
       erroneous: Object.keys(validationResult),
     };
   }
 
-  handleClick = (e) => {
-    e.persist();
-    this.props.submit(e, true);
+  handleClick = () => {
+    this.props.submit(true);
   };
 
   render() {
     return (
-      <React.Fragment>
-        <button
-          className="ui button"
-          type="submit"
-          disabled={!this.state.validation.valid}
-          onClick={this.handleClick}
-          style={{ float: "right" }}
-        >
-          Submit
-        </button>
-      </React.Fragment>
+      <button
+        className="ui button"
+        type="submit"
+        disabled={!this.state.validation.valid}
+        onClick={this.handleClick}
+        style={{ float: "right" }}
+      >
+        Submit
+      </button>
     );
   }
 }

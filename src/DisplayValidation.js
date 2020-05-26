@@ -5,7 +5,7 @@ export default class DisplayValidation extends Component {
     super(props);
 
     this.state = {
-      successful: false,
+      formValid: false,
       closeClicked: false,
     };
   }
@@ -13,7 +13,7 @@ export default class DisplayValidation extends Component {
   static getDerivedStateFromProps(props, state) {
     if (!state.closeClicked) {
       return {
-        successful: props.formValid,
+        formValid: props.formValid,
       };
     } else {
       return {
@@ -23,18 +23,18 @@ export default class DisplayValidation extends Component {
     }
   }
 
-  closeIcon = (e) => {
+  closeMessage = (e) => {
     this.setState((state) => ({
-      successful: false,
+      formValid: false,
       closeClicked: true,
     }));
   };
 
-  successfulContent = (formValid) => {
+  content = (formValid) => {
     if (formValid) {
       return (
         <div className="ui success message">
-          <i className="close icon" onClick={this.closeIcon}></i>
+          <i className="close icon" onClick={this.closeMessage}></i>
           <div className="header">Your user registration was successful.</div>
           <p>You may now log-in with the username you have chosen</p>
         </div>
@@ -45,6 +45,6 @@ export default class DisplayValidation extends Component {
   };
 
   render() {
-    return this.successfulContent(this.state.successful);
+    return this.content(this.state.formValid);
   }
 }
