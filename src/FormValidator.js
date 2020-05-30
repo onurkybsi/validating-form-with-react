@@ -7,7 +7,6 @@ export default class FormValidator extends Component {
 
     this.state = {
       errors: {},
-      erroneous: [],
       valid: false,
     };
   }
@@ -18,10 +17,19 @@ export default class FormValidator extends Component {
     if (prevState.valid === true && validationResult.valid === false) {
       nextProps.submit(false);
     }
-    
+
+    let erroneous = [];
+
+    for (let [key, value] of Object.entries(validationResult.errors)) {
+      if (value.length > 0) {
+        erroneous.push(key);
+      }
+    }
+
+    nextProps.changeCallback(erroneous);
+
     return {
       errors: validationResult.errors,
-      erroneous: Object.keys(validationResult.errors),
       valid: validationResult.valid,
     };
   }

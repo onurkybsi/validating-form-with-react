@@ -6,11 +6,13 @@ export default class FormComponent extends Component {
     super(props);
 
     this.state = {
-      firstname: "",
-      lastname: "",
-      birthdate: "",
-      email: "",
-      conditions: false,
+      formData: {
+        firstname: "",
+        lastname: "",
+        birthdate: "",
+        email: "",
+        conditions: false,
+      },
     };
     this.rules = {
       firstname: { required: true, minLength: 3, onlyLetter: true },
@@ -18,23 +20,31 @@ export default class FormComponent extends Component {
       email: { required: true, email: true },
       birthdate: { required: true, date: true },
     };
+    this.erroneous = [];
   }
 
   updateInputValues = (event) => {
     event.persist();
-    this.setState((state) => ({
-      [event.target?.name]: event.target?.value,
-    }));
+    this.setState((state) => {
+      state.formData[event.target?.name] = event.target?.value;
+      return state;
+    });
   };
 
   updateConditions = (event) => {
     event.persist();
-    this.setState((state) => ({
-      [event.target?.name]: event.target?.checked,
-    }));
+    this.setState((state) => {
+      state.formData[event.target?.name] = event.target?.checked;
+      return state;
+    });
+  };
+
+  changeCallback = (erroneous) => {
+    this.erroneous = erroneous;
   };
 
   render() {
+    console.log(this.erroneous.includes("firstname"));
     return (
       <React.Fragment>
         <form className="ui form">
@@ -43,12 +53,14 @@ export default class FormComponent extends Component {
             <input
               type="text"
               name="firstname"
-              value={this.state.firstname}
+              value={this.state.formData.firstname}
               onChange={this.updateInputValues}
               placeholder="First Name"
-              // style={{
-              //   borderColor: "#912D2B",
-              // }}
+              style={{
+                borderColor: this.erroneous.includes("firstname")
+                  ? "#912D2B"
+                  : null,
+              }}
             />
           </div>
           <div className="field">
@@ -56,9 +68,14 @@ export default class FormComponent extends Component {
             <input
               type="text"
               name="lastname"
-              value={this.state.lastname}
+              value={this.state.formData.lastname}
               onChange={this.updateInputValues}
               placeholder="Last Name"
+              style={{
+                borderColor: this.erroneous.includes("lastname")
+                  ? "#912D2B"
+                  : null,
+              }}
             />
           </div>
           <div className="field">
@@ -66,9 +83,14 @@ export default class FormComponent extends Component {
             <input
               type="text"
               name="birthdate"
-              value={this.state.birthdate}
+              value={this.state.formData.birthdate}
               onChange={this.updateInputValues}
               placeholder="Birth Date"
+              style={{
+                borderColor: this.erroneous.includes("birthdate")
+                  ? "#912D2B"
+                  : null,
+              }}
             />
           </div>
           <div className="field">
@@ -76,25 +98,31 @@ export default class FormComponent extends Component {
             <input
               type="text"
               name="email"
-              value={this.state.email}
+              value={this.state.formData.email}
               onChange={this.updateInputValues}
               placeholder="E-mail"
+              style={{
+                borderColor: this.erroneous.includes("email")
+                  ? "#912D2B"
+                  : null,
+              }}
             />
           </div>
           <div className="ui checkbox" style={{ float: "left" }}>
             <input
               type="checkbox"
               name="conditions"
-              value={this.state.conditions}
+              value={this.state.formData.conditions}
               onChange={this.updateConditions}
             />
             <label>I agree to the Terms and Conditions</label>
           </div>
         </form>
         <FormValidator
-          formData={this.state}
+          formData={this.state.formData}
           rules={this.rules}
           submit={this.props.submit}
+          changeCallback={this.changeCallback}
         />
       </React.Fragment>
     );
